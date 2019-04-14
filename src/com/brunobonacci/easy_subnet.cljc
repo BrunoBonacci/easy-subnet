@@ -3,7 +3,8 @@
             [clojure.string :as str]
             [where.core :refer [where]]
             [clojure.tools.cli :refer [parse-opts]]
-            [schema.core :as s])
+            [schema.core :as s]
+            [clojure.java.io :as io])
   (:gen-class))
 
 
@@ -135,12 +136,15 @@
                "Must be a valid CIDR like 10.10.0.0/16"]]
 
    ["-l" "--layout LAYOUT" "The layout of how to split the subnets"
-    :parse-fn read-string
-    :validate [identity
-               "Must provide a layout to split. see documentation. "]]
+    :parse-fn read-string]
+
+
+   ["-f" "--file-layout LAYOUT" "The layout of how to split the subnets"
+    :parse-fn (comp read-string slurp)]
+
 
    ["-p" "--print SELECTION" "Displays a table with the given selection.
-                                Can be one of: `both`, `free`, `nets`, default `both`"
+                                   Can be one of: `both`, `free`, `nets`, default `both`"
     :parse-fn keyword
     :default :both
     :validate [#{:both :nets :free} "Mus be one of: `both`, `free`, `nets`"]]
@@ -158,7 +162,7 @@
 (defn usage [options-summary]
   (->> [""
         "     --=  Easy Subnetting Tool =--"
-        "  (v0.1.0) - (C) Bruno Bonacci - 2019"
+        "  (v0.2.0) - (C) Bruno Bonacci - 2019"
         ""
         "Usage: easy-subnet -c 10.10.0.0/16 -l '{\"dc1\" [\"net1\" \"net2\"], \"dc2\" [\"net1\" \"net2\" \"net3\"]}'"
         ""
@@ -186,12 +190,16 @@
       {:exit-message (usage summary) :ok? true}
       errors ; errors => exit with description of errors
       {:exit-message (error-msg errors)}
-      (not (and (:cidr options) (:layout options)))
-      {:exit-message (usage summary)}
+      (and (not (:cidr options)) (not (or (:file-layout options) (:layout options))))
+      {:exit-message (usage summary) :ok? true}
+      (not (:cidr options))
+      {:exit-message (error-msg ["CIDR not provided. Use -c option."])}
+      (not (or (:file-layout options) (:layout options)))
+      {:exit-message (error-msg ["Layout not provided. Use -l or -f options."])}
 
       :else
       {:action :subnet
-       :options options
+       :options (assoc options :layout (or (:layout options) (:file-layout options)))
        :select (case (:print options)
                  :both (constantly true)
                  :nets (where :name :not-contains? "free")

@@ -1,24 +1,36 @@
 # easy-subnet
 [![Clojars Project](https://img.shields.io/clojars/v/com.brunobonacci/easy-subnet.svg)](https://clojars.org/com.brunobonacci/easy-subnet) ![CircleCi](https://img.shields.io/circleci/project/BrunoBonacci/easy-subnet.svg) ![last-commit](https://img.shields.io/github/last-commit/BrunoBonacci/easy-subnet.svg) [![Dependencies Status](https://jarkeeper.com/com.brunobonacci/easy-subnet/status.svg)](https://jarkeeper.com/BrunoBonacci/easy-subnet)
 
-A cool library designed to ... well, that part is up to you.
+A command line tool to easily split subnets.
+
+## Installation
+
+  * Install command line tool
+  ``` bash
+  mkdir -p ~/bin
+  wget https://github.com/BrunoBonacci/easy-subnet/releases/download/0.2.0/easy-subnet -O ~/bin/easy-subnet
+  chmod +x ~/bin/easy-subnet
+  export PATH=~/bin:$PATH
+  ```
+
 
 ## Usage
 
 ``` text
 
      --=  Easy Subnetting Tool =--
-  (v0.1.0) - (C) Bruno Bonacci - 2019
+  (v0.2.0) - (C) Bruno Bonacci - 2019
 
 Usage: easy-subnet -c 10.10.0.0/16 -l '{"dc1" ["net1" "net2"], "dc2" ["net1" "net2" "net3"]}'
 
 Options:
-  -c, --cidr CIDR               CIDR of the subnet to split
-  -l, --layout LAYOUT           The layout of how to split the subnets
-  -p, --print SELECTION  :both  Displays a table with the given selection.
-                                Can be one of: `both`, `free`, `nets`, default `both`
-  -o, --order ORDER      :net   Diplay ordering: name, net, (default: net)
-      --stacktrace              Display full stacktrace in case of errors
+  -c, --cidr CIDR                  CIDR of the subnet to split
+  -l, --layout LAYOUT              The layout of how to split the subnets
+  -f, --file-layout LAYOUT         The layout of how to split the subnets
+  -p, --print SELECTION     :both  Displays a table with the given selection.
+                                   Can be one of: `both`, `free`, `nets`, default `both`
+  -o, --order ORDER         :net   Diplay ordering: name, net, (default: net)
+      --stacktrace                 Display full stacktrace in case of errors
   -h, --help
 
 Please refer to the following page for more information:
