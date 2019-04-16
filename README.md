@@ -5,7 +5,7 @@ A command line tool to easily split subnets.
 
 ## Installation
 
-  * Install command line tool
+  * Install command line tool (requires Java JRE)
   ``` bash
   mkdir -p ~/bin
   wget https://github.com/BrunoBonacci/easy-subnet/releases/download/0.2.0/easy-subnet -O ~/bin/easy-subnet
