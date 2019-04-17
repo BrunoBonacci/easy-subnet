@@ -53,6 +53,7 @@ $ easy-subnet  -c 10.12.15.0/24 -l '["net1" "net2"]'
 
 The splits must be power of 2, otherwise it cannot be split equally
 and some unused ranges are left.
+The layout is expressed in [EDN format](https://github.com/edn-format/edn).
 
 
 ``` text
