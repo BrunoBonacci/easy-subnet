@@ -219,6 +219,67 @@ You can separate the free (unused) networks from the ones allocated using
 `-p nets` for the allocated ones and `-p free` to display only the unused
 ranges.
 
+
+
+### List IPs in subnet
+
+If you want to list all the IPs in a given subnet you can run:
+
+``` text
+$ easy-subnet list -c 10.12.15.128/28
+10.12.15.128
+10.12.15.129
+10.12.15.130
+10.12.15.131
+10.12.15.132
+10.12.15.133
+10.12.15.134
+10.12.15.135
+10.12.15.136
+10.12.15.137
+10.12.15.138
+10.12.15.139
+10.12.15.140
+10.12.15.141
+10.12.15.142
+10.12.15.143
+```
+
+Or between two IPs:
+
+``` text
+$ easy-subnet list --from 10.12.15.251 --to 10.12.16.6
+10.12.15.251
+10.12.15.252
+10.12.15.253
+10.12.15.254
+10.12.15.255
+10.12.16.0
+10.12.16.1
+10.12.16.2
+10.12.16.3
+10.12.16.4
+10.12.16.5
+10.12.16.6
+```
+
+Also in reverse order
+``` text
+$ easy-subnet list --from 10.12.16.6 --to 10.12.15.251
+10.12.16.6
+10.12.16.5
+10.12.16.4
+10.12.16.3
+10.12.16.2
+10.12.16.1
+10.12.16.0
+10.12.15.255
+10.12.15.254
+10.12.15.253
+10.12.15.252
+10.12.15.251
+```
+
 ## License
 
 Copyright © 2019 Bruno Bonacci - Distributed under the [Apache License v2.0](http://www.apache.org/licenses/LICENSE-2.0)
