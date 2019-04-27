@@ -5,10 +5,18 @@ A command line tool to easily split subnets.
 
 ## Installation
 
-  * Install command line tool (requires Java JRE)
+  * Install command line tool (Native binary for Mac-OSX and Linux)
   ``` bash
   mkdir -p ~/bin
-  wget https://github.com/BrunoBonacci/easy-subnet/releases/download/0.2.0/easy-subnet -O ~/bin/easy-subnet
+  wget https://github.com/BrunoBonacci/easy-subnet/releases/download/0.4.0/easy-subnet-$(uname -s)-$(uname -m) -O ~/bin/easy-subnet
+  chmod +x ~/bin/easy-subnet
+  export PATH=~/bin:$PATH
+  ```
+
+  * Install command line tool (for Windows and other platforms, requires Java JRE)
+  ``` bash
+  mkdir -p ~/bin
+  wget https://github.com/BrunoBonacci/easy-subnet/releases/download/0.4.0/easy-subnet -O ~/bin/easy-subnet
   chmod +x ~/bin/easy-subnet
   export PATH=~/bin:$PATH
   ```
@@ -19,18 +27,27 @@ A command line tool to easily split subnets.
 ``` text
 
      --=  Easy Subnetting Tool =--
-  (v0.2.0) - (C) Bruno Bonacci - 2019
+  (v0.4.0) - (C) Bruno Bonacci - 2019
 
-Usage: easy-subnet -c 10.10.0.0/16 -l '{"dc1" ["net1" "net2"], "dc2" ["net1" "net2" "net3"]}'
+ - To subnet a given network:
+   easy-subnet -c 10.10.0.0/16 -l '{"dc1" ["net1" "net2"], "dc2" ["net1" "net2" "net3"]}'
+
+ - To list all the IPs of a subnet:
+   easy-subnet list -c 10.10.0.0/16
+   easy-subnet list --from 192.168.12.1 --to 192.168.15.1
 
 Options:
-  -c, --cidr CIDR                  CIDR of the subnet to split
-  -l, --layout LAYOUT              The layout of how to split the subnets
-  -f, --file-layout LAYOUT         The layout of how to split the subnets
-  -p, --print SELECTION     :both  Displays a table with the given selection.
+  -c, --cidr CIDR                   CIDR of the subnet to split
+  -l, --layout LAYOUT               The layout of how to split the subnets
+  -f, --file-layout LAYOUT          The layout of how to split the subnets
+  -p, --print SELECTION     :both   Displays a table with the given selection.
                                    Can be one of: `both`, `free`, `nets`, default `both`
-  -o, --order ORDER         :net   Diplay ordering: name, net, (default: net)
-      --stacktrace                 Display full stacktrace in case of errors
+  -o, --order ORDER         :net    Diplay ordering: name, net, (default: net)
+      --format FORMAT       :table  The format to display the output. One of: `table`, `json`
+                                    (default: `table`)
+      --from IP                     Starting IP for listing
+      --to IP                       Last IP for listing
+      --stacktrace                  Display full stacktrace in case of errors
   -h, --help
 
 Please refer to the following page for more information:

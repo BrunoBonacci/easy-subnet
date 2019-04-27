@@ -1,12 +1,13 @@
 (ns perf
-  (:require [com.brunobonacci.subnet :refer :all]
+  (:require [com.brunobonacci.easy-subnet :refer :all]
             [criterium.core :refer [bench quick-bench]]))
 
 
 (comment
 
-  ;; perf tests
+  ;; perf evaluation
 
-  (bench (Thread/sleep 1000))
+  (bench
+   (ip->num "192.168.23.43"))
 
   )
