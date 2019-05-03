@@ -1,4 +1,4 @@
-(defproject com.brunobonacci/easy-subnet "0.4.0"
+(defproject com.brunobonacci/easy-subnet "0.4.1"
   :description "easy subnetting tool"
 
   :url "https://github.com/BrunoBonacci/easy-subnet"

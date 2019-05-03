@@ -8,7 +8,7 @@ A command line tool to easily split subnets.
   * Install command line tool (Native binary for Mac-OSX and Linux)
   ``` bash
   mkdir -p ~/bin
-  wget https://github.com/BrunoBonacci/easy-subnet/releases/download/0.4.0/easy-subnet-$(uname -s)-$(uname -m) -O ~/bin/easy-subnet
+  wget https://github.com/BrunoBonacci/easy-subnet/releases/download/0.4.1/easy-subnet-$(uname -s)-$(uname -m) -O ~/bin/easy-subnet
   chmod +x ~/bin/easy-subnet
   export PATH=~/bin:$PATH
   ```
@@ -16,7 +16,7 @@ A command line tool to easily split subnets.
   * Install command line tool (for Windows and other platforms, requires Java JRE)
   ``` bash
   mkdir -p ~/bin
-  wget https://github.com/BrunoBonacci/easy-subnet/releases/download/0.4.0/easy-subnet -O ~/bin/easy-subnet
+  wget https://github.com/BrunoBonacci/easy-subnet/releases/download/0.4.1/easy-subnet -O ~/bin/easy-subnet
   chmod +x ~/bin/easy-subnet
   export PATH=~/bin:$PATH
   ```
@@ -27,7 +27,7 @@ A command line tool to easily split subnets.
 ``` text
 
      --=  Easy Subnetting Tool =--
-  (v0.4.0) - (C) Bruno Bonacci - 2019
+  (v0.4.1) - (C) Bruno Bonacci - 2019
 
  - To subnet a given network:
    easy-subnet -c 10.10.0.0/16 -l '{"dc1" ["net1" "net2"], "dc2" ["net1" "net2" "net3"]}'
@@ -35,6 +35,9 @@ A command line tool to easily split subnets.
  - To list all the IPs of a subnet:
    easy-subnet list -c 10.10.0.0/16
    easy-subnet list --from 192.168.12.1 --to 192.168.15.1
+
+ - Show network details:
+   easy-subnet net -c 10.10.0.0/16
 
 Options:
   -c, --cidr CIDR                   CIDR of the subnet to split
@@ -279,6 +282,28 @@ $ easy-subnet list --from 10.12.16.6 --to 10.12.15.251
 10.12.15.252
 10.12.15.251
 ```
+
+### Show network details
+
+You can display the details of a network via:
+
+``` text
+$ easy-subnet net -c 10.12.16.6/20
+
+| :property    | :value                           |
+|--------------+----------------------------------|
+| network      | 10.12.16.0/20                    |
+| type         | :ip4                             |
+| first-ip     | 10.12.16.0                       |
+| broadcast-ip | 10.12.31.255                     |
+| size         | 4096                             |
+| network-mask | 255.255.240.0                    |
+| bit-mask     | 20                               |
+| ip           | 10.12.16.6                       |
+| bits:ip      | 00001010000011000001000000000110 |
+| bits:bitmask | 11111111111111111111000000000000 |
+```
+
 
 ## License
 

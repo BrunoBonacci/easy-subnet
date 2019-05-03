@@ -9,6 +9,13 @@
   (:gen-class))
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                                                            ;;
+;;                  ----==| C O R E   I P   C A L C |==----                   ;;
+;;                                                                            ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
 (defn binary-ip4 [ip-num]
   (cl-format nil "~32,'0',B" ip-num))
 
@@ -104,7 +111,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                                                                            ;;
-;;                          ----==| C O D E |==----                           ;;
+;;                       ----==| D I V I D E R |==----                        ;;
 ;;                                                                            ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -190,6 +197,14 @@
 
 
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                                                            ;;
+;;                       ----==| D I S P L A Y |==----                        ;;
+;;                                                                            ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
 ;; adjusted from clojure.pprint
 ;; https://github.com/clojure/clojure/blob/master/src/clj/clojure/pprint/print_table.clj
 (defn print-table
@@ -242,6 +257,13 @@
 
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                                                            ;;
+;;                  ----==| C O M M A N D   L I N E |==----                   ;;
+;;                                                                            ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
 (def cli-options
 
   [["-c" "--cidr CIDR" "CIDR of the subnet to split"
@@ -287,7 +309,7 @@
 (defn usage [options-summary]
   (->> [""
       "     --=  Easy Subnetting Tool =--"
-      "  (v0.4.0) - (C) Bruno Bonacci - 2019"
+      "  (v0.4.1) - (C) Bruno Bonacci - 2019"
       ""
       " - To subnet a given network:"
       "   easy-subnet -c 10.10.0.0/16 -l '{\"dc1\" [\"net1\" \"net2\"], \"dc2\" [\"net1\" \"net2\" \"net3\"]}'"
@@ -295,6 +317,9 @@
       " - To list all the IPs of a subnet:"
       "   easy-subnet list -c 10.10.0.0/16"
       "   easy-subnet list --from 192.168.12.1 --to 192.168.15.1"
+      ""
+      " - Show network details:"
+      "   easy-subnet net -c 10.10.0.0/16"
       ""
       "Options:"
       options-summary
@@ -367,6 +392,18 @@
            :to     (if (:cidr options)
                      (:bcast (network (:cidr options)))
                      (:to options))})
+
+        ;; net details
+        (= "net" (first arguments))
+        (cond
+          (not (:cidr options))
+          {:exit-message (error-msg ["CIDR not provided. Use -c option."])}
+
+          :else
+          {:action :show-net
+           :cidr (:cidr options)})
+
+
         :else
         {:exit-message (usage summary) :ok? true}))))
 
@@ -413,6 +450,23 @@
     (->> (range start (+ stop dir) dir)
        (map ip-num->ip)
        (run! println))))
+
+
+(defmethod run-action :show-net
+  [{:keys [cidr]}]
+  (let [net   (network cidr)]
+    (->> [["network"    (:network net)]
+        ["type"         (:type net)]
+        ["first-ip"     (:first net)]
+        ["broadcast-ip" (:bcast net)]
+        ["size"         (:size net)]
+        ["network-mask" (:net-mask net)]
+        ["bit-mask"     (:bitmask net)]
+        ["ip"           (ip-num->ip (:ip-num net))]
+        ["bits:ip"      (binary-ip4 (:ip-num net))]
+        ["bits:bitmask" (binary-ip4 (cidr-bit-mask 32 (:bitmask net)))]]
+       (map (fn [[k v]] {:property k :value v}))
+       (print-table [:property :value]))))
 
 
 (defn -main [& args]
