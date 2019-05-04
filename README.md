@@ -5,6 +5,12 @@ A command line tool to easily split subnets.
 
 ## Installation
 
+  * Installation via Homebrew
+  ``` bash
+  brew tap BrunoBonacci/lazy-tools
+  brew install easy-subnet
+  ```
+
   * Install command line tool (Native binary for Mac-OSX and Linux)
   ``` bash
   mkdir -p ~/bin
