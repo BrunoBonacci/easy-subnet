@@ -66,10 +66,21 @@
    ["do" "clean," "bin," "native-mac," "native-linux"]
 
    ;; prep release upload
-   "cp-native"
+   "package-native"
    ["do"
-    "shell" "mkdir" "-p" "/tmp/easy-subnet,"
+    "shell" "mkdir" "-p" "/tmp/easy-subnet/hb/bin,"
+
     "shell" "cp" "./target/easy-subnet" "./target/easy-subnet-Linux-x86_64"
-    "./target/easy-subnet-Darwin-x86_64" "/tmp/easy-subnet/"]
+    "./target/easy-subnet-Darwin-x86_64" "/tmp/easy-subnet/,"
+
+    "shell" "cp" "./target/easy-subnet-Darwin-x86_64" "/tmp/easy-subnet/hb/bin/easy-subnet,"
+    "shell" "tar" "-zcvf" "/tmp/easy-subnet/easy-subnet-homebrew-Darwin-x86_64.tar.gz" "-C" "/tmp/easy-subnet/hb" ".,"
+    "shell" "rm"  "-fr" "/tmp/easy-subnet/hb/bin,"
+
+    "shell" "mkdir" "-p"  "/tmp/easy-subnet/hb/bin,"
+    "shell" "cp" "./target/easy-subnet-Linux-x86_64" "/tmp/easy-subnet/hb/bin/easy-subnet,"
+    "shell" "tar" "-zcvf" "/tmp/easy-subnet/easy-subnet-homebrew-Linux-x86_64.tar.gz" "-C" "/tmp/easy-subnet/hb" ".,"
+    "shell" "rm"    "-fr" "/tmp/easy-subnet/hb,"
+    ]
    }
   )
