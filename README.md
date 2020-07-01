@@ -1,5 +1,4 @@
 # easy-subnet
-[![Clojars Project](https://img.shields.io/clojars/v/com.brunobonacci/easy-subnet.svg)](https://clojars.org/com.brunobonacci/easy-subnet) ![CircleCi](https://img.shields.io/circleci/project/BrunoBonacci/easy-subnet.svg) ![last-commit](https://img.shields.io/github/last-commit/BrunoBonacci/easy-subnet.svg) [![Dependencies Status](https://jarkeeper.com/com.brunobonacci/easy-subnet/status.svg)](https://jarkeeper.com/BrunoBonacci/easy-subnet)
 
 A command line tool to easily split subnets.
 
